@@ -26,7 +26,6 @@ import com.txmq.aviator.config.model.MessagingConfig;
 import com.txmq.aviator.core.Aviator;
 import com.txmq.aviator.core.annotations.AviatorShutdown;
 import com.txmq.aviator.core.annotations.AviatorStartup;
-import com.txmq.aviator.core.swirlds.AviatorSwirlds;
 import com.txmq.aviator.messaging.AviatorCoreTransactionTypes;
 import com.txmq.aviator.messaging.AviatorMessage;
 import com.txmq.aviator.messaging.rest.CORSFilter;
@@ -130,7 +129,7 @@ public class AviatorRESTBootstrapper {
 			if (config.derivedPort != null) {
 				// Calculate the port for socket connections based on the hashgraph's port
 				// If we're in test mode, mock this up to be a typical value, e.g. 5220X
-				if (!AviatorSwirlds.isTestMode()) {
+				if (!Aviator.isTestMode()) {
 					result.port = Aviator.getBasePort() + config.derivedPort;
 				} else {
 					result.port = 50204 + config.derivedPort;
