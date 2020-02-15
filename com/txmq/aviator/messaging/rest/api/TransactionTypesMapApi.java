@@ -1,4 +1,4 @@
-package com.txmq.aviator.messaging.rest;
+package com.txmq.aviator.messaging.rest.api;
 
 import java.io.IOException;
 import java.io.Serializable;

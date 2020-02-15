@@ -50,7 +50,7 @@ public class AviatorRESTBootstrapper {
 		
 		restConfig = parseMessagingConfig(restConfig);
 		URI baseUri = UriBuilder.fromUri("http://0.0.0.0").port(restConfig.port).build();
-		ResourceConfig config = new ResourceConfig().packages("com.txmq.aviator.messaging.rest")
+		ResourceConfig config = new ResourceConfig().packages("com.txmq.aviator.messaging.rest.api")
 				.register(new CORSFilter()).register(JacksonFeature.class).register(MultiPartFeature.class);
 
 		for (String pkg : restConfig.handlers) {
