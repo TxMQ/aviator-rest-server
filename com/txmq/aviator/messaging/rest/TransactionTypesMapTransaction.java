@@ -2,7 +2,7 @@ package com.txmq.aviator.messaging.rest;
 
 import java.util.Map;
 
-import com.txmq.aviator.core.swirlds.AviatorSwirldsState;
+import com.txmq.aviator.core.AviatorStateBase;
 import com.txmq.aviator.messaging.AviatorCoreTransactionTypes;
 import com.txmq.aviator.messaging.AviatorTransactionType;
 import com.txmq.aviator.messaging.AviatorMessage;
@@ -14,7 +14,7 @@ public class TransactionTypesMapTransaction {
 	@AviatorHandler(namespace=AviatorCoreTransactionTypes.NAMESPACE,
 				transactionType=AviatorCoreTransactionTypes.GET_TRANSACTION_TYPES, 
 				events={PlatformEvents.messageReceived})
-	public Map<Integer, AviatorTransactionType.NamespaceEntry> getTransactionTypesMap(AviatorMessage<?> message, AviatorSwirldsState state) {
+	public Map<Integer, AviatorTransactionType.NamespaceEntry> getTransactionTypesMap(AviatorMessage<?> message, AviatorStateBase state) {
 		message.interrupt();
 		return AviatorTransactionType.getTransactionTypesMap();
 	}

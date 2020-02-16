@@ -2,7 +2,7 @@ package com.txmq.aviator.messaging.rest;
 
 import java.util.List;
 
-import com.txmq.aviator.core.swirlds.AviatorSwirldsState;
+import com.txmq.aviator.core.AviatorStateBase;
 import com.txmq.aviator.messaging.AviatorCoreTransactionTypes;
 import com.txmq.aviator.messaging.AviatorMessage;
 import com.txmq.aviator.pipeline.PlatformEvents;
@@ -15,14 +15,14 @@ public class EndpointsTransactions {
 	@AviatorHandler(namespace=AviatorCoreTransactionTypes.NAMESPACE, 
 				transactionType=AviatorCoreTransactionTypes.ANNOUNCE_NODE, 
 				events= {PlatformEvents.executeConsensus})
-	public void announceNode(AviatorMessage<?> message, AviatorSwirldsState state) {
+	public void announceNode(AviatorMessage<?> message, AviatorStateBase state) {
 		state.addEndpoint((String) message.payload);
 	}
 	
 	@AviatorHandler(namespace=AviatorCoreTransactionTypes.NAMESPACE, 
 				transactionType=AviatorCoreTransactionTypes.LIST_ENDPOINTS, 
 				events= {PlatformEvents.messageReceived})
-	public List<String> listEndpoints(AviatorMessage<?> message, AviatorSwirldsState state) {
+	public List<String> listEndpoints(AviatorMessage<?> message, AviatorStateBase state) {
 		message.interrupt();
 		return state.getEndpoints();
 	}
