@@ -6,8 +6,10 @@ import java.net.Inet4Address;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.ws.rs.Path;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -20,6 +22,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.reflections.Reflections;
 
 import com.txmq.aviator.config.AviatorConfig;
 import com.txmq.aviator.config.model.MessagingConfig;
@@ -54,7 +57,15 @@ public class AviatorRESTBootstrapper {
 				.register(new CORSFilter()).register(JacksonFeature.class).register(MultiPartFeature.class);
 
 		for (String pkg : restConfig.handlers) {
-			config.packages(pkg);
+			//Workaround for REST classes packaged in JARs, e.g. stuff internal to Aviator
+			Reflections reflections = new Reflections(pkg);
+			try {
+				Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Path.class);
+				for (Class<?> clazz : classes) {
+					config.register(clazz);
+				}
+			} catch (Exception e) {}
+			//config.packages(pkg);
 		}
 
 		System.out.println("Attempting to start Grizzly on " + baseUri);
